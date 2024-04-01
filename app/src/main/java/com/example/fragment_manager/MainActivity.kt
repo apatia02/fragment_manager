@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        tabFragmentNavigator = TabFragmentNavigator(this, TAB_1_ID, R.id.fragment_container)
         setListeners()
         binding.bottomNavigationView.selectedItemId = R.id.tab_1
     }
@@ -41,15 +42,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun selectTab(tabId: String) = with(binding) {
-        var fragment = TabBackStackManager.getUpperFragment(tabId)
-        if (fragment == null) {
-            fragment = getFragmentByTabId(tabId)
-            TabBackStackManager.pushFragment(tabId, fragment)
-        }
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit()
+    private fun selectTab(tabId: String) {
+      tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
@@ -62,24 +56,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCurrentTabId(): String {
-        return when (binding.bottomNavigationView.selectedItemId) {
-            R.id.tab_1 -> TAB_1_ID
-            R.id.tab_2 -> TAB_2_ID
-            R.id.tab_3 -> TAB_3_ID
-            R.id.tab_4 -> TAB_4_ID
-            else -> TAB_1_ID
-        }
-    }
-
     override fun onBackPressed() {
-        val fragment = TabBackStackManager.popFragment(getCurrentTabId())
-        if (fragment == null) {
-            super.getOnBackPressedDispatcher().onBackPressed()
-        } else {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-        }
+        tabFragmentNavigator?.popBackStack()
+    }
+    companion object{
+        var tabFragmentNavigator: TabFragmentNavigator? = null
     }
 }
