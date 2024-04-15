@@ -1,10 +1,11 @@
-package com.example.fragment_manager
+package com.example.fragment_manager.presentation.features
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import java.util.Stack
 
 class TabFragmentNavigator(
-    private val activity: MainActivity,
+    private val activity: AppCompatActivity,
     initialTab: String,
     private val fragmentContainer: Int
 ) {

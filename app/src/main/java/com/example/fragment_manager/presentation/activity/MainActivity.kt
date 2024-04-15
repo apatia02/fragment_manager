@@ -1,31 +1,37 @@
-package com.example.fragment_manager
+package com.example.fragment_manager.presentation.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.fragment_manager.constants.TAB_1_ID
-import com.example.fragment_manager.constants.TAB_2_ID
-import com.example.fragment_manager.constants.TAB_3_ID
-import com.example.fragment_manager.constants.TAB_4_ID
+import com.example.fragment_manager.App
+import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.ActivityMainBinding
-import com.example.fragment_manager.fragments.Tab1Fragment
-import com.example.fragment_manager.fragments.Tab2Fragment
-import com.example.fragment_manager.fragments.Tab3Fragment
-import com.example.fragment_manager.fragments.Tab4Fragment
+import com.example.fragment_manager.di.ActivityComponent
+import com.example.fragment_manager.presentation.abstractions.ActivityManual
+import com.example.fragment_manager.presentation.constants.TAB_1_ID
+import com.example.fragment_manager.presentation.constants.TAB_2_ID
+import com.example.fragment_manager.presentation.constants.TAB_3_ID
+import com.example.fragment_manager.presentation.constants.TAB_4_ID
+import com.example.fragment_manager.presentation.fragments.Tab1Fragment
+import com.example.fragment_manager.presentation.fragments.Tab2Fragment
+import com.example.fragment_manager.presentation.fragments.Tab3Fragment
+import com.example.fragment_manager.presentation.fragments.Tab4Fragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ActivityManual() {
 
     private lateinit var binding: ActivityMainBinding
+
+    override lateinit var activityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        (application as App).appComponent.injectActivityComponent(this)
         init()
     }
 
     private fun init() {
-        tabFragmentNavigator = TabFragmentNavigator(this, TAB_1_ID, R.id.fragment_container)
+        activityComponent.setTabFragmentNavigator(this, TAB_1_ID, R.id.fragment_container)
         setListeners()
         binding.bottomNavigationView.selectedItemId = R.id.tab_1
     }
@@ -43,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectTab(tabId: String) {
-      tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
+        activityComponent.tabNavigator.switchTab(tabId, getFragmentByTabId(tabId))
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
@@ -57,9 +63,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        tabFragmentNavigator?.popBackStack()
-    }
-    companion object{
-        var tabFragmentNavigator: TabFragmentNavigator? = null
+        activityComponent.tabNavigator.popBackStack()
     }
 }

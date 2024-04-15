@@ -1,18 +1,24 @@
-package com.example.fragment_manager.fragments
+package com.example.fragment_manager.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.example.fragment_manager.MainActivity
-import com.example.fragment_manager.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
-import com.example.fragment_manager.constants.TAB_2_ID
+import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
+import com.example.fragment_manager.presentation.constants.TAB_2_ID
 import com.example.fragment_manager.databinding.FragmentTab2Binding
+import com.example.fragment_manager.presentation.abstractions.ActivityManual
+import com.example.fragment_manager.di.FragmentComponent
+import com.example.fragment_manager.presentation.abstractions.FragmentManual
+import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 
-class Tab2Fragment : Fragment() {
+class Tab2Fragment : FragmentManual() {
 
     private lateinit var binding: FragmentTab2Binding
+
+    override lateinit var fragmentComponent: FragmentComponent
+
+    private lateinit var tabFragmentNavigator: TabFragmentNavigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,10 +31,12 @@ class Tab2Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as ActivityManual).activityComponent.injectFragmentComponent(this)
         init()
     }
 
     private fun init() {
+        tabFragmentNavigator = fragmentComponent.activityComponent.tabNavigator
         binding.openFunnyFragmentBtn.setOnClickListener {
             openFunnyFragment()
         }
@@ -40,6 +48,6 @@ class Tab2Fragment : Fragment() {
         }
         val funnyFragment = FunnyFragment()
         funnyFragment.arguments = bundle
-        MainActivity.tabFragmentNavigator?.replace(funnyFragment)
+        tabFragmentNavigator.replace(funnyFragment)
     }
 }

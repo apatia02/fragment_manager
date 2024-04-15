@@ -1,4 +1,4 @@
-package com.example.fragment_manager.constants
+package com.example.fragment_manager.presentation.constants
 
 const val TAB_1_ID = "Tab 1 id"
 
