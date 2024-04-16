@@ -1,33 +1,27 @@
 package com.example.fragment_manager.di
 
-import androidx.appcompat.app.AppCompatActivity
-import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 import com.example.fragment_manager.presentation.abstractions.ActivityManual
-import com.example.fragment_manager.presentation.abstractions.FragmentManual
+import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 
 class ActivityComponent(val appComponent: AppComponent) {
 
-    lateinit var tabNavigator: TabFragmentNavigator
+    private var tabNavigator: TabFragmentNavigator? = null
 
-    private val fragmentComponent = FragmentComponent(this)
+    private lateinit var activityManual: ActivityManual
 
     fun setTabFragmentNavigator(
-        activity: AppCompatActivity,
         initialTab: String,
         fragmentContainer: Int
     ) {
         tabNavigator = TabFragmentNavigator(
-            activity = activity,
+            activity = activityManual,
             initialTab = initialTab,
             fragmentContainer = fragmentContainer
         )
+        activityManual.tabFragmentNavigator = tabNavigator
     }
 
-    fun inject(activity: ActivityManual) {
-        activity.activityComponent = this
-    }
-
-    fun injectFragmentComponent(fragmentManual: FragmentManual) {
-        fragmentComponent.inject(fragmentManual)
+    fun inject(activityManual: ActivityManual) {
+        this.activityManual = activityManual
     }
 }

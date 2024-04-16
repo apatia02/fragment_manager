@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.FragmentFunnyBinding
-import com.example.fragment_manager.presentation.abstractions.ActivityManual
-import com.example.fragment_manager.di.FragmentComponent
 import com.example.fragment_manager.presentation.abstractions.FragmentManual
-import com.example.fragment_manager.domain.ImageRepository
 import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
 import com.example.fragment_manager.presentation.constants.TAB_1_ID
 import com.example.fragment_manager.presentation.constants.TAB_2_ID
@@ -20,10 +17,6 @@ class FunnyFragment : FragmentManual() {
 
     private lateinit var binding: FragmentFunnyBinding
 
-    override lateinit var fragmentComponent: FragmentComponent
-
-    private lateinit var imageRepository: ImageRepository
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,14 +26,8 @@ class FunnyFragment : FragmentManual() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as ActivityManual).activityComponent.injectFragmentComponent(this)
-        init()
-    }
-
-    private fun init() {
-        imageRepository = fragmentComponent.activityComponent.appComponent.imageRepository
+    override fun init() {
+        val imageRepository = activityManual.activityComponent.appComponent.imageRepository
         val funImage = when (arguments?.getString(KEY_INITIAL_TAB_FUN_ARGUMENT).toString()) {
             TAB_1_ID -> imageRepository.getImage()
             TAB_2_ID -> R.drawable.fun_2

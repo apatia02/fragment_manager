@@ -1,25 +1,20 @@
 package com.example.fragment_manager.presentation.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.fragment_manager.databinding.FragmentTab1Binding
-import com.example.fragment_manager.di.FragmentComponent
-import com.example.fragment_manager.presentation.abstractions.ActivityManual
 import com.example.fragment_manager.presentation.abstractions.FragmentManual
 import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
 import com.example.fragment_manager.presentation.constants.TAB_1_ID
-import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 
 
 class Tab1Fragment : FragmentManual() {
 
     private lateinit var binding: FragmentTab1Binding
-
-    override lateinit var fragmentComponent: FragmentComponent
-
-    private lateinit var tabFragmentNavigator: TabFragmentNavigator
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,16 +25,15 @@ class Tab1Fragment : FragmentManual() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as ActivityManual).activityComponent.injectFragmentComponent(this)
-        init()
-    }
-
-    private fun init() = with(binding) {
-        tabFragmentNavigator = fragmentComponent.activityComponent.tabNavigator
+    @SuppressLint("ClickableViewAccessibility")
+    override fun init(): Unit = with(binding) {
         openFunnyFragmentBtn.setOnClickListener {
             openFunnyFragment()
+        }
+        this@Tab1Fragment.view?.setOnTouchListener { _, _ ->
+            clickCounter.incrementClickCount()
+            Log.d("CLICK COUNTER", "Tab1Fragment click count:${clickCounter.getClickCount()}")
+            false
         }
     }
 
@@ -49,6 +43,6 @@ class Tab1Fragment : FragmentManual() {
         }
         val funnyFragment = FunnyFragment()
         funnyFragment.arguments = bundle
-        tabFragmentNavigator.replace(funnyFragment)
+        activityManual.tabFragmentNavigator?.replace(funnyFragment)
     }
 }

@@ -2,10 +2,8 @@ package com.example.fragment_manager.presentation.activity
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.fragment_manager.App
 import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.ActivityMainBinding
-import com.example.fragment_manager.di.ActivityComponent
 import com.example.fragment_manager.presentation.abstractions.ActivityManual
 import com.example.fragment_manager.presentation.constants.TAB_1_ID
 import com.example.fragment_manager.presentation.constants.TAB_2_ID
@@ -20,18 +18,15 @@ class MainActivity : ActivityManual() {
 
     private lateinit var binding: ActivityMainBinding
 
-    override lateinit var activityComponent: ActivityComponent
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        (application as App).appComponent.injectActivityComponent(this)
         init()
     }
 
     private fun init() {
-        activityComponent.setTabFragmentNavigator(this, TAB_1_ID, R.id.fragment_container)
+        this.initTabFragmentNavigator(TAB_1_ID, R.id.fragment_container)
         setListeners()
         binding.bottomNavigationView.selectedItemId = R.id.tab_1
     }
@@ -49,7 +44,7 @@ class MainActivity : ActivityManual() {
     }
 
     private fun selectTab(tabId: String) {
-        activityComponent.tabNavigator.switchTab(tabId, getFragmentByTabId(tabId))
+        this.tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
@@ -63,6 +58,6 @@ class MainActivity : ActivityManual() {
     }
 
     override fun onBackPressed() {
-        activityComponent.tabNavigator.popBackStack()
+        this.tabFragmentNavigator?.popBackStack()
     }
 }
