@@ -3,6 +3,7 @@ package com.example.fragment_manager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.fragment_manager.features.TabFragmentNavigator
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk

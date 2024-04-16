@@ -1,6 +1,7 @@
-package com.example.fragment_manager
+package com.example.fragment_manager.features
 
 import androidx.fragment.app.Fragment
+import com.example.fragment_manager.MainActivity
 import java.util.Stack
 
 class TabFragmentNavigator(

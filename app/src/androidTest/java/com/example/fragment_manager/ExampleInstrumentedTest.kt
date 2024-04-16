@@ -31,4 +31,15 @@ class ExampleInstrumentedTest {
         MainScreen.bottomNavigation.setSelectedItem(R.id.tab_1)
         FunnyScreen.funnyImage.isDisplayed()
     }
+
+    @Test
+    fun testPassWordBetweenFragments() {
+        TabScreen.somethingEt.typeText(TEST_WORD)
+        TabScreen.openFunnyFragmentBtn.click()
+        FunnyScreen.receivedWord.containsText(TEST_WORD)
+    }
+
+    private companion object {
+        const val TEST_WORD = "test word"
+    }
 }
