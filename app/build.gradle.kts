@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.2")
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.0")
