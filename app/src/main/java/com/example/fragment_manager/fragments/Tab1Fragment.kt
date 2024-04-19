@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fragment_manager.MainActivity
 import com.example.fragment_manager.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
+import com.example.fragment_manager.constants.KEY_WORD_FUN_ARGUMENT
 import com.example.fragment_manager.constants.TAB_1_ID
 import com.example.fragment_manager.databinding.FragmentTab1Binding
 
@@ -30,13 +31,15 @@ class Tab1Fragment : Fragment() {
     }
 
     private fun init() {
-      binding.openFunnyFragmentBtn.setOnClickListener {
-          openFunnyFragment()
-      }
+        binding.openFunnyFragmentBtn.setOnClickListener {
+            openFunnyFragment()
+        }
     }
-    private fun openFunnyFragment(){
+
+    private fun openFunnyFragment() {
         val bundle = Bundle().apply {
             putString(KEY_INITIAL_TAB_FUN_ARGUMENT, TAB_1_ID)
+            putString(KEY_WORD_FUN_ARGUMENT, binding.somethingEt.text.toString())
         }
         val funnyFragment = FunnyFragment()
         funnyFragment.arguments = bundle

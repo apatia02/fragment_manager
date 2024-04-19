@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fragment_manager.R
 import com.example.fragment_manager.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
+import com.example.fragment_manager.constants.KEY_WORD_FUN_ARGUMENT
 import com.example.fragment_manager.constants.TAB_1_ID
 import com.example.fragment_manager.constants.TAB_2_ID
 import com.example.fragment_manager.constants.TAB_3_ID
@@ -40,5 +41,6 @@ class FunnyFragment : Fragment() {
             else -> R.drawable.fun_1
         }
         binding.funImage.setImageResource(funImage)
+        binding.receivedTextTv.text = arguments?.getString(KEY_WORD_FUN_ARGUMENT).toString()
     }
 }

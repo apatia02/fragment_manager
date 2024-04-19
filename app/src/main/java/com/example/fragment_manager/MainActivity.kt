@@ -8,6 +8,7 @@ import com.example.fragment_manager.constants.TAB_2_ID
 import com.example.fragment_manager.constants.TAB_3_ID
 import com.example.fragment_manager.constants.TAB_4_ID
 import com.example.fragment_manager.databinding.ActivityMainBinding
+import com.example.fragment_manager.features.TabFragmentNavigator
 import com.example.fragment_manager.fragments.Tab1Fragment
 import com.example.fragment_manager.fragments.Tab2Fragment
 import com.example.fragment_manager.fragments.Tab3Fragment
