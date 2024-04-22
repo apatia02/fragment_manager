@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import java.util.Stack
 
 class TabFragmentNavigator(
-    private val activity: AppCompatActivity,
-    initialTab: String,
-    private val fragmentContainer: Int
+    private val activity: AppCompatActivity, initialTab: String, private val fragmentContainer: Int
 ) {
 
     private val tabStacks: MutableMap<String, Stack<Fragment>> = mutableMapOf()
