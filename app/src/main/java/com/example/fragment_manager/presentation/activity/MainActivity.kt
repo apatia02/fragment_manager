@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.ActivityMainBinding
 import com.example.fragment_manager.presentation.abstractions.ActivityManual
+import com.example.fragment_manager.presentation.abstractions.ActivityManualConfigurator
 import com.example.fragment_manager.presentation.constants.TAB_1_ID
 import com.example.fragment_manager.presentation.constants.TAB_2_ID
 import com.example.fragment_manager.presentation.constants.TAB_3_ID
 import com.example.fragment_manager.presentation.constants.TAB_4_ID
+import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 import com.example.fragment_manager.presentation.fragments.Tab1Fragment
 import com.example.fragment_manager.presentation.fragments.Tab2Fragment
 import com.example.fragment_manager.presentation.fragments.Tab3Fragment
@@ -18,6 +20,8 @@ class MainActivity : ActivityManual() {
 
     private lateinit var binding: ActivityMainBinding
 
+    lateinit var tabFragmentNavigator: TabFragmentNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,8 +29,11 @@ class MainActivity : ActivityManual() {
         init()
     }
 
+    override fun createConfigurator(): ActivityManualConfigurator {
+        return MainActivityConfigurator(TAB_1_ID, R.id.fragment_container)
+    }
+
     private fun init() {
-        this.initTabFragmentNavigator(TAB_1_ID, R.id.fragment_container)
         setListeners()
         binding.bottomNavigationView.selectedItemId = R.id.tab_1
     }
@@ -44,7 +51,7 @@ class MainActivity : ActivityManual() {
     }
 
     private fun selectTab(tabId: String) {
-        this.tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
+        this.tabFragmentNavigator.switchTab(tabId, getFragmentByTabId(tabId))
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
@@ -58,6 +65,6 @@ class MainActivity : ActivityManual() {
     }
 
     override fun onBackPressed() {
-        this.tabFragmentNavigator?.popBackStack()
+        this.tabFragmentNavigator.popBackStack()
     }
 }
