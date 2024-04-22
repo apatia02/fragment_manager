@@ -1,13 +1,11 @@
-package com.example.fragment_manager.features
+package com.example.fragment_manager.presentation.features
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.fragment_manager.MainActivity
 import java.util.Stack
 
 class TabFragmentNavigator(
-    private val activity: MainActivity,
-    initialTab: String,
-    private val fragmentContainer: Int
+    private val activity: AppCompatActivity, initialTab: String, private val fragmentContainer: Int
 ) {
 
     private val tabStacks: MutableMap<String, Stack<Fragment>> = mutableMapOf()

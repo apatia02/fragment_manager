@@ -1,5 +1,6 @@
-package com.example.fragment_manager
+package com.example
 
+import com.example.fragment_manager.R
 import io.github.kakaocup.kakao.edit.KEditText
 import io.github.kakaocup.kakao.screen.Screen
 import io.github.kakaocup.kakao.text.KButton
