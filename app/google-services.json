@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "737216764320",
+    "project_id": "fragment-manager",
+    "storage_bucket": "fragment-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737216764320:android:f387f9960bf1d3cc066cc5",
+        "android_client_info": {
+          "package_name": "com.example.fragment_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL7RKN2YDSDkCkqSxEO_xiPDC9-w3-ssA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
