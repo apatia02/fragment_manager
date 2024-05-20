@@ -1,15 +1,15 @@
-package com.example.fragment_manager
+package com.example
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.fragment_manager.features.TabFragmentNavigator
+import com.example.fragment_manager.presentation.activity.MainActivity
+import com.example.fragment_manager.presentation.features.TabFragmentNavigator
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,9 +1,10 @@
-package com.example.fragment_manager
+package com.example
 
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import com.example.fragment_manager.R
+import com.example.fragment_manager.presentation.activity.MainActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

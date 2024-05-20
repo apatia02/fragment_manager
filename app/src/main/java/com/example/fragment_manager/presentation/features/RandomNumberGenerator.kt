@@ -1,4 +1,4 @@
-package com.example.fragment_manager.features
+package com.example.fragment_manager.presentation.features
 
 import kotlin.random.Random
 

@@ -1,6 +1,6 @@
-package com.example.fragment_manager
+package com.example
 
-import com.example.fragment_manager.features.RandomNumberGenerator
+import com.example.fragment_manager.presentation.features.RandomNumberGenerator
 import io.mockk.spyk
 import junit.framework.TestCase.assertTrue
 import org.junit.Before

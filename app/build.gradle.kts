@@ -19,12 +19,22 @@ android {
     }
 
     buildTypes {
+
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        debug {
+            isDebuggable = true
+        }
+
+        create("qa") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -38,6 +48,7 @@ android {
 }
 
 dependencies {
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.2")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation ("com.google.firebase:firebase-messaging:20.1.0")
 

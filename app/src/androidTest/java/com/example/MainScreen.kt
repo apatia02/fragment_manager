@@ -1,5 +1,6 @@
-package com.example.fragment_manager
+package com.example
 
+import com.example.fragment_manager.R
 import io.github.kakaocup.kakao.bottomnav.KBottomNavigationView
 import io.github.kakaocup.kakao.screen.Screen
 
