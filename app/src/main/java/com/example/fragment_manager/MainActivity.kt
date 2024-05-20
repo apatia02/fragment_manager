@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectTab(tabId: String) {
-      tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
+        tabFragmentNavigator?.switchTab(tabId, getFragmentByTabId(tabId))
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         tabFragmentNavigator?.popBackStack()
     }
-    companion object{
+
+    companion object {
         var tabFragmentNavigator: TabFragmentNavigator? = null
     }
 }
