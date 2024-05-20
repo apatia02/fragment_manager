@@ -10,4 +10,8 @@
     <string name="open_fun_2">Открыть смешнявку 2</string>
     <string name="open_fun_3">Открыть смешнявку 3</string>
     <string name="open_fun_4">Открыть смешнявку 4</string>
+    <string name="channel_for_tab_fragments">channel for tab fragments</string>
+    <string name="channel_for_funny_fragment">channel for funny fragment</string>
+    <string name="channel_for_tab_fragments_description">This is channel for tab fragments</string>
+    <string name="channel_for_funny_fragment_description">This is channel for fragment with funny image</string>
 </resources>
