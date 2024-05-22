@@ -1,4 +1,4 @@
-package com.example.fragment_manager.firebase
+package com.example.fragment_manager.presentation.notification
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
