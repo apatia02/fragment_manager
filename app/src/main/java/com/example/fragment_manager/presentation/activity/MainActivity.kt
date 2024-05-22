@@ -1,5 +1,6 @@
 package com.example.fragment_manager.presentation.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.fragment_manager.R
@@ -15,6 +16,7 @@ import com.example.fragment_manager.presentation.fragments.Tab1Fragment
 import com.example.fragment_manager.presentation.fragments.Tab2Fragment
 import com.example.fragment_manager.presentation.fragments.Tab3Fragment
 import com.example.fragment_manager.presentation.fragments.Tab4Fragment
+import com.example.fragment_manager.presentation.notification.NotificationHelper
 
 class MainActivity : ActivityManual() {
 
@@ -33,9 +35,16 @@ class MainActivity : ActivityManual() {
         return MainActivityConfigurator(TAB_1_ID, R.id.fragment_container)
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
     private fun init() {
         setListeners()
         binding.bottomNavigationView.selectedItemId = R.id.tab_1
+        handleIntent(intent)
     }
 
     private fun setListeners() = with(binding) {
@@ -52,6 +61,13 @@ class MainActivity : ActivityManual() {
 
     private fun selectTab(tabId: String) {
         this.tabFragmentNavigator.switchTab(tabId, getFragmentByTabId(tabId))
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        intent?.extras?.let {
+            val tab = it.getInt(NotificationHelper.TAB_ARGUMENT)
+            binding.bottomNavigationView.selectedItemId = tab
+        }
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
