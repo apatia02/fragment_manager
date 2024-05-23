@@ -69,21 +69,23 @@ class MainActivity : ActivityManual() {
     private fun handleIntent(intent: Intent?) {
         intent?.extras?.let {
             val tab = it.getInt(NotificationHelper.TAB_ARGUMENT)
+            val tabIdFromSingle = it.getString(NotificationHelper.TAB_ARGUMENT)
             val tabIdFromReceiver = it.getString(ReplyReceiver.EXTRA_REPLY)
             when {
                 tabIdFromReceiver != null -> openFunFragment(tabIdFromReceiver)
+                tabIdFromSingle != null -> openFunFragment(tabIdFromSingle)
                 else -> binding.bottomNavigationView.selectedItemId = tab
             }
 
         }
     }
 
-    private fun openFunFragment(tabId: String) {
+    private fun openFunFragment(tabId: String) = with(binding) {
         when (tabId) {
-            TAB_1_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_1
-            TAB_2_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_2
-            TAB_3_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_3
-            else -> binding.bottomNavigationView.selectedItemId = R.id.tab_4
+            TAB_1_ID -> bottomNavigationView.selectedItemId = R.id.tab_1
+            TAB_2_ID -> bottomNavigationView.selectedItemId = R.id.tab_2
+            TAB_3_ID -> bottomNavigationView.selectedItemId = R.id.tab_3
+            else -> bottomNavigationView.selectedItemId = R.id.tab_4
         }
         val bundle = Bundle().apply {
             putString(KEY_INITIAL_TAB_FUN_ARGUMENT, tabId)
