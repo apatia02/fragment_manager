@@ -19,6 +19,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="ACTION_REPLY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <service
             android:name=".presentation.notification.MyFirebaseMessagingService"
@@ -27,6 +32,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <receiver android:name=".presentation.notification.ReplyReceiver" />
     </application>
 
 </manifest>

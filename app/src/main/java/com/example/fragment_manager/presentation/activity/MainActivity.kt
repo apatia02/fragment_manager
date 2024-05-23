@@ -7,16 +7,19 @@ import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.ActivityMainBinding
 import com.example.fragment_manager.presentation.abstractions.ActivityManual
 import com.example.fragment_manager.presentation.abstractions.ActivityManualConfigurator
+import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
 import com.example.fragment_manager.presentation.constants.TAB_1_ID
 import com.example.fragment_manager.presentation.constants.TAB_2_ID
 import com.example.fragment_manager.presentation.constants.TAB_3_ID
 import com.example.fragment_manager.presentation.constants.TAB_4_ID
 import com.example.fragment_manager.presentation.features.TabFragmentNavigator
+import com.example.fragment_manager.presentation.fragments.FunnyFragment
 import com.example.fragment_manager.presentation.fragments.Tab1Fragment
 import com.example.fragment_manager.presentation.fragments.Tab2Fragment
 import com.example.fragment_manager.presentation.fragments.Tab3Fragment
 import com.example.fragment_manager.presentation.fragments.Tab4Fragment
 import com.example.fragment_manager.presentation.notification.NotificationHelper
+import com.example.fragment_manager.presentation.notification.ReplyReceiver
 
 class MainActivity : ActivityManual() {
 
@@ -66,8 +69,28 @@ class MainActivity : ActivityManual() {
     private fun handleIntent(intent: Intent?) {
         intent?.extras?.let {
             val tab = it.getInt(NotificationHelper.TAB_ARGUMENT)
-            binding.bottomNavigationView.selectedItemId = tab
+            val tabIdFromReceiver = it.getString(ReplyReceiver.EXTRA_REPLY)
+            when {
+                tabIdFromReceiver != null -> openFunFragment(tabIdFromReceiver)
+                else -> binding.bottomNavigationView.selectedItemId = tab
+            }
+
         }
+    }
+
+    private fun openFunFragment(tabId: String) {
+        when (tabId) {
+            TAB_1_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_1
+            TAB_2_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_2
+            TAB_3_ID -> binding.bottomNavigationView.selectedItemId = R.id.tab_3
+            else -> binding.bottomNavigationView.selectedItemId = R.id.tab_4
+        }
+        val bundle = Bundle().apply {
+            putString(KEY_INITIAL_TAB_FUN_ARGUMENT, tabId)
+        }
+        val funnyFragment = FunnyFragment()
+        funnyFragment.arguments = bundle
+        tabFragmentNavigator.replace(funnyFragment)
     }
 
     private fun getFragmentByTabId(tabId: String): Fragment {
