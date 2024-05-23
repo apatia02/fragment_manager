@@ -1,15 +1,31 @@
 package com.example.fragment_manager.presentation.notification
 
 import com.example.fragment_manager.R
+import com.example.fragment_manager.presentation.notification.NotificationTypes.CustomWithReply
 import com.example.fragment_manager.presentation.notification.NotificationTypes.ExpandedWithImg
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NavigationToTab
 import com.google.firebase.messaging.RemoteMessage.Notification
 
 fun Notification.mapToNotificationType(): NotificationTypes {
-    return when {
+    val notificationId = System.currentTimeMillis().toInt()
+    val notification = when {
         this.title?.contains("tab") ?: false -> this.getNavigationToTab()
         this.title?.contains("fun") ?: false -> this.getExpandedWithImg()
+        this.title?.contains("reply") ?: false -> CustomWithReply(
+            title = this.title.orEmpty(),
+            body = this.body.orEmpty()
+        )
+
         else -> this.getNavigationToTab()
+    }
+    return notification.setId(notificationId)
+}
+
+private fun NotificationTypes.setId(id: Int): NotificationTypes {
+    return when (this) {
+        is NavigationToTab -> this.copy(id = id)
+        is ExpandedWithImg -> this.copy(id = id)
+        is CustomWithReply -> this.copy(id = id)
     }
 }
 
