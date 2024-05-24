@@ -7,6 +7,7 @@ import com.example.fragment_manager.presentation.constants.TAB_3_ID
 import com.example.fragment_manager.presentation.constants.TAB_4_ID
 import com.example.fragment_manager.presentation.notification.NotificationTypes.CustomWithReply
 import com.example.fragment_manager.presentation.notification.NotificationTypes.ExpandedWithImg
+import com.example.fragment_manager.presentation.notification.NotificationTypes.NonCancelable
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.NavigationToTab
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.SingleWithNavigation
 import com.google.firebase.messaging.RemoteMessage.Notification
@@ -22,6 +23,11 @@ fun Notification.mapToNotificationType(): NotificationTypes {
             body = this.body.orEmpty()
         )
 
+        this.title?.contains("cancel") ?: false -> NonCancelable(
+            title = this.title.orEmpty(),
+            body = this.body.orEmpty()
+        )
+
         else -> this.getNavigationToTab()
     }
     return notification.setId(notificationId)
@@ -32,6 +38,7 @@ private fun NotificationTypes.setId(id: Int): NotificationTypes {
         is NavigationToTab -> this.copy(id = id)
         is ExpandedWithImg -> this.copy(id = id)
         is CustomWithReply -> this.copy(id = id)
+        is NonCancelable -> this.copy(id = id)
         else -> this
     }
 }

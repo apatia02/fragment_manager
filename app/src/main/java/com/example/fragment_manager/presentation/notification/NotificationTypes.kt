@@ -39,6 +39,16 @@ sealed class NotificationTypes(
         override val priority: Int = NotificationCompat.PRIORITY_HIGH
     ) : NotificationTypes()
 
+    data class NonCancelable(
+        override val id: Int = DEFAULT_INT,
+        override val channel: String = App.CHANNEL_FOR_TAB_FRAGMENTS_ID,
+        override val title: String = EMPTY_STRING,
+        override val body: String = EMPTY_STRING,
+        override val group: String = NotificationHelper.GROUP_CANCEL,
+        override val groupId: Int = NotificationHelper.GROUP_CANCEL_ID,
+        override val priority: Int = NotificationCompat.PRIORITY_HIGH
+    ) : NotificationTypes()
+
     sealed class NotificationsWithNavigations : NotificationTypes() {
 
         data class NavigationToTab(
