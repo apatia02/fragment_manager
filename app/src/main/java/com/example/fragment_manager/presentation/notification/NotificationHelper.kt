@@ -1,5 +1,6 @@
 package com.example.fragment_manager.presentation.notification
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -18,13 +19,16 @@ import com.example.fragment_manager.domain.DEFAULT_INT
 import com.example.fragment_manager.presentation.activity.MainActivity
 import com.example.fragment_manager.presentation.notification.NotificationTypes.CustomWithReply
 import com.example.fragment_manager.presentation.notification.NotificationTypes.ExpandedWithImg
+import com.example.fragment_manager.presentation.notification.NotificationTypes.NonCancelable
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.NavigationToTab
 import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.SingleWithNavigation
+import com.example.fragment_manager.presentation.notification.ReplyReceiver.Companion.EXTRA_GROUP_ID
 import com.example.fragment_manager.presentation.notification.ReplyReceiver.Companion.EXTRA_NOTIFICATION_ID
 import com.example.fragment_manager.presentation.notification.ReplyReceiver.Companion.KEY_TEXT_REPLY
 import com.google.firebase.messaging.RemoteMessage
 import androidx.appcompat.R as materialR
+import com.google.android.material.R as googleMaterialR
 
 class NotificationHelper(private val context: Context) {
 
@@ -71,6 +75,7 @@ class NotificationHelper(private val context: Context) {
             is SingleWithNavigation -> this.createBaseBuilder().buildNotificationBuilder(this)
             is ExpandedWithImg -> this.createBaseBuilder().buildNotificationBuilder(this)
             is CustomWithReply -> this.buildNotificationBuilder()
+            is NonCancelable -> this.createBaseBuilder().buildNotificationBuilder(this)
         }
     }
 
@@ -90,7 +95,7 @@ class NotificationHelper(private val context: Context) {
             putExtra(EXTRA_NOTIFICATION_ID, id)
         }
         val replyPendingIntent: PendingIntent =
-            PendingIntent.getBroadcast(context, 0, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, id, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val action: Action = Action.Builder(
             materialR.drawable.abc_ic_go_search_api_material,
@@ -127,7 +132,7 @@ class NotificationHelper(private val context: Context) {
             }
         }
         val pendingIntent =
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(context, notificationType.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return this.setContentIntent(pendingIntent)
     }
@@ -142,6 +147,24 @@ class NotificationHelper(private val context: Context) {
             .setStyle(bigStyle)
     }
 
+    @SuppressLint("PrivateResource")
+    private fun Builder.buildNotificationBuilder(notificationType: NonCancelable): Builder {
+
+        val cancelIntent = Intent(context, ReplyReceiver::class.java).apply {
+            putExtra(EXTRA_NOTIFICATION_ID, notificationType.id)
+            putExtra(EXTRA_GROUP_ID, notificationType.groupId)
+        }
+        val cancelPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(context, notificationType.id, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return this
+            .addAction(
+                googleMaterialR.drawable.mtrl_ic_cancel,
+                context.getString(R.string.cancel),
+                cancelPendingIntent
+            )
+            .setOngoing(true)
+    }
+
     private fun checkIsChannelEnable(channelId: String): Boolean {
         val channel = notificationManager.getNotificationChannel(channelId)
         return channel != null && channel.importance != NotificationManager.IMPORTANCE_NONE
@@ -152,9 +175,11 @@ class NotificationHelper(private val context: Context) {
         const val GROUP_TAB = "notifications for tabs"
         const val GROUP_IMG = "notifications for image"
         const val GROUP_REPLY = "notifications for reply"
+        const val GROUP_CANCEL = "notifications for cancel"
         const val GROUP_TAB_ID = 0
         const val GROUP_IMG_ID = 1
         const val GROUP_REPLY_ID = 2
-        const val SINGLE_NOTIFICATION_ID = 3
+        const val GROUP_CANCEL_ID = 3
+        const val SINGLE_NOTIFICATION_ID = 4
     }
 }
