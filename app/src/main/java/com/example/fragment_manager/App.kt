@@ -20,6 +20,7 @@ class App : Application() {
             NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
             description = getString(R.string.channel_for_tab_fragments_description)
+            setShowBadge(true)
         }
 
         val channelFunnyFragment = NotificationChannel(
@@ -28,6 +29,7 @@ class App : Application() {
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = getString(R.string.channel_for_funny_fragment_description)
+            setShowBadge(false)
         }
 
         val manager = getSystemService(NotificationManager::class.java)

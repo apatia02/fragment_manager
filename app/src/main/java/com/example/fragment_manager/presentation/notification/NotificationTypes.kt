@@ -68,7 +68,7 @@ sealed class NotificationTypes(
             override val channel: String = App.CHANNEL_FOR_FUNNY_FRAGMENT_ID,
             override val title: String = EMPTY_STRING,
             override val body: String = EMPTY_STRING,
-            override val priority: Int = NotificationCompat.PRIORITY_HIGH
+            override val priority: Int = NotificationCompat.PRIORITY_DEFAULT
         ) : NotificationsWithNavigations()
     }
 }

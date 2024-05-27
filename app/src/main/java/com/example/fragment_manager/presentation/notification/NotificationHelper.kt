@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.Action
 import androidx.core.app.NotificationCompat.BigPictureStyle
 import androidx.core.app.NotificationCompat.Builder
@@ -106,6 +107,8 @@ class NotificationHelper(private val context: Context) {
             .build()
 
         return Builder(context, channel)
+            .setPriority(priority)
+            .setGroup(group)
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setStyle(DecoratedCustomViewStyle())
             .setCustomContentView(notificationLayout)
@@ -124,17 +127,28 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun Builder.buildNotificationBuilder(notificationType: NotificationsWithNavigations): Builder {
+        var notification = this
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             when (notificationType) {
-                is NavigationToTab -> putExtra(TAB_ARGUMENT, notificationType.tabId)
+                is NavigationToTab -> {
+                    putExtra(TAB_ARGUMENT, notificationType.tabId)
+                    notification =
+                        notification.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+                }
+
                 is SingleWithNavigation -> putExtra(TAB_ARGUMENT, notificationType.tabId)
             }
         }
         val pendingIntent =
-            PendingIntent.getActivity(context, notificationType.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(
+                context,
+                notificationType.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
-        return this.setContentIntent(pendingIntent)
+        return notification.setContentIntent(pendingIntent)
     }
 
     private fun Builder.buildNotificationBuilder(notificationType: ExpandedWithImg): Builder {
@@ -155,7 +169,12 @@ class NotificationHelper(private val context: Context) {
             putExtra(EXTRA_GROUP_ID, notificationType.groupId)
         }
         val cancelPendingIntent: PendingIntent =
-            PendingIntent.getBroadcast(context, notificationType.id, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(
+                context,
+                notificationType.id,
+                cancelIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         return this
             .addAction(
                 googleMaterialR.drawable.mtrl_ic_cancel,
