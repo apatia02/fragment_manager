@@ -14,4 +14,5 @@
     <string name="channel_for_funny_fragment">channel for funny fragment</string>
     <string name="channel_for_tab_fragments_description">This is channel for tab fragments</string>
     <string name="channel_for_funny_fragment_description">This is channel for fragment with funny image</string>
+    <string name="reply_label">Введите id таба, на котором должны быть картинка</string>
 </resources>
