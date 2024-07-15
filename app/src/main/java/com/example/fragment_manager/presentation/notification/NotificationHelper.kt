@@ -14,10 +14,13 @@ import androidx.core.app.NotificationCompat.InboxStyle
 import androidx.core.app.RemoteInput
 import androidx.core.app.RemoteInput.*
 import com.example.fragment_manager.R
+import com.example.fragment_manager.domain.DEFAULT_INT
 import com.example.fragment_manager.presentation.activity.MainActivity
 import com.example.fragment_manager.presentation.notification.NotificationTypes.CustomWithReply
 import com.example.fragment_manager.presentation.notification.NotificationTypes.ExpandedWithImg
-import com.example.fragment_manager.presentation.notification.NotificationTypes.NavigationToTab
+import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations
+import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.NavigationToTab
+import com.example.fragment_manager.presentation.notification.NotificationTypes.NotificationsWithNavigations.SingleWithNavigation
 import com.example.fragment_manager.presentation.notification.ReplyReceiver.Companion.EXTRA_NOTIFICATION_ID
 import com.example.fragment_manager.presentation.notification.ReplyReceiver.Companion.KEY_TEXT_REPLY
 import com.google.firebase.messaging.RemoteMessage
@@ -44,16 +47,18 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun NotificationTypes.handleSummaryNotification() {
-        notificationsGroups[groupId] ?: run {
-            this.createBaseBuilder()
-                .setGroupSummary(true)
-                .setStyle(
-                    InboxStyle()
-                        .setSummaryText(group)
-                )
-                .apply {
-                    notificationsGroups[groupId] = this
-                }
+        if (groupId != DEFAULT_INT) {
+            notificationsGroups[groupId] ?: run {
+                this.createBaseBuilder()
+                    .setGroupSummary(true)
+                    .setStyle(
+                        InboxStyle()
+                            .setSummaryText(group)
+                    )
+                    .apply {
+                        notificationsGroups[groupId] = this
+                    }
+            }
         }
         notificationsGroups.forEach {
             notificationManager.notify(it.key, it.value.build())
@@ -63,6 +68,7 @@ class NotificationHelper(private val context: Context) {
     private fun NotificationTypes.buildNotificationBuilder(): Builder {
         return when (this) {
             is NavigationToTab -> this.createBaseBuilder().buildNotificationBuilder(this)
+            is SingleWithNavigation -> this.createBaseBuilder().buildNotificationBuilder(this)
             is ExpandedWithImg -> this.createBaseBuilder().buildNotificationBuilder(this)
             is CustomWithReply -> this.buildNotificationBuilder()
         }
@@ -112,10 +118,13 @@ class NotificationHelper(private val context: Context) {
             .setAutoCancel(true)
     }
 
-    private fun Builder.buildNotificationBuilder(notificationType: NavigationToTab): Builder {
+    private fun Builder.buildNotificationBuilder(notificationType: NotificationsWithNavigations): Builder {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            putExtra(TAB_ARGUMENT, notificationType.tabId)
+            when (notificationType) {
+                is NavigationToTab -> putExtra(TAB_ARGUMENT, notificationType.tabId)
+                is SingleWithNavigation -> putExtra(TAB_ARGUMENT, notificationType.tabId)
+            }
         }
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -146,5 +155,6 @@ class NotificationHelper(private val context: Context) {
         const val GROUP_TAB_ID = 0
         const val GROUP_IMG_ID = 1
         const val GROUP_REPLY_ID = 2
+        const val SINGLE_NOTIFICATION_ID = 3
     }
 }
