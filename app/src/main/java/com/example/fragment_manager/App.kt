@@ -4,13 +4,16 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import com.example.fragment_manager.di.AppComponent
+import com.vk.id.VKID
 
 class App : Application() {
-    val appComponent = AppComponent()
+
+    val appComponent by lazy { AppComponent(this) }
 
     override fun onCreate() {
         super.onCreate()
         createNotificationChannels()
+        VKID.init(this)
     }
 
     private fun createNotificationChannels() {

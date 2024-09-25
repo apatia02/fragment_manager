@@ -2,9 +2,12 @@ package com.example.fragment_manager.presentation.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.example.fragment_manager.R
 import com.example.fragment_manager.databinding.ActivityMainBinding
+import com.example.fragment_manager.domain.EMPTY_STRING
+import com.example.fragment_manager.domain.UserShared
 import com.example.fragment_manager.presentation.abstractions.ActivityManual
 import com.example.fragment_manager.presentation.abstractions.ActivityManualConfigurator
 import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
@@ -13,6 +16,7 @@ import com.example.fragment_manager.presentation.constants.TAB_2_ID
 import com.example.fragment_manager.presentation.constants.TAB_3_ID
 import com.example.fragment_manager.presentation.constants.TAB_4_ID
 import com.example.fragment_manager.presentation.features.TabFragmentNavigator
+import com.example.fragment_manager.presentation.fragments.AuthFragment
 import com.example.fragment_manager.presentation.fragments.FunnyFragment
 import com.example.fragment_manager.presentation.fragments.Tab1Fragment
 import com.example.fragment_manager.presentation.fragments.Tab2Fragment
@@ -26,6 +30,8 @@ class MainActivity : ActivityManual() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var tabFragmentNavigator: TabFragmentNavigator
+
+    lateinit var userShared: UserShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +52,19 @@ class MainActivity : ActivityManual() {
 
     private fun init() {
         setListeners()
-        binding.bottomNavigationView.selectedItemId = R.id.tab_1
         handleIntent(intent)
+        openInitialScreen()
+    }
+
+    private fun openInitialScreen() = with(binding) {
+        if (userShared.getUserName() == EMPTY_STRING) {
+            bottomNavigationView.isGone = true
+            this@MainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, AuthFragment()).commit()
+        } else {
+            bottomNavigationView.isGone = false
+            bottomNavigationView.selectedItemId = R.id.tab_1
+        }
     }
 
     private fun setListeners() = with(binding) {

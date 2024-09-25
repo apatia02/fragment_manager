@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.fragment_manager.databinding.FragmentTab1Binding
+import com.example.fragment_manager.domain.UserShared
 import com.example.fragment_manager.presentation.abstractions.FragmentManualConfigurator
 import com.example.fragment_manager.presentation.abstractions.TabFragment
 import com.example.fragment_manager.presentation.constants.KEY_INITIAL_TAB_FUN_ARGUMENT
@@ -25,6 +26,8 @@ class Tab1Fragment : TabFragment() {
 
     lateinit var clickCounter: ClickCounter
 
+    lateinit var userShared: UserShared
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +39,7 @@ class Tab1Fragment : TabFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun init(): Unit = with(binding) {
+        userNameTv.text = userShared.getUserName()
         openFunnyFragmentBtn.setOnClickListener {
             openFunnyFragment()
         }

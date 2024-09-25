@@ -4,9 +4,10 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
 android {
     namespace = "com.example.fragment_manager"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.fragment_manager"
@@ -16,6 +17,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        addManifestPlaceholders(
+            mapOf(
+                "VKIDClientID" to "52349179",
+                "VKIDClientSecret" to "nElbJMOctVsbrXC3DN62",
+                "VKIDRedirectHost" to "vk.com",
+                "VKIDRedirectScheme" to "vk52349179",
+            )
+        )
     }
 
     buildTypes {
@@ -42,17 +52,19 @@ android {
         viewBinding = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
 }
 
 dependencies {
+    implementation("com.vk.id:vkid:2.0.0")
     debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.2")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation ("com.google.firebase:firebase-messaging:20.1.0")
 
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

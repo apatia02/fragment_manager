@@ -17,5 +17,6 @@ class MainActivityConfigurator(
             fragmentContainer
         )
         activity.tabFragmentNavigator = activity.activityComponent.tabFragmentNavigator
+        activity.userShared = activity.activityComponent.appComponent.userShared
     }
 }
