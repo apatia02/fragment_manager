@@ -16,4 +16,5 @@
     <string name="channel_for_funny_fragment_description">This is channel for fragment with funny image</string>
     <string name="reply_label">Введите id таба, на котором должны быть картинка</string>
     <string name="cancel">Отмена</string>
+    <string name="enter_from_vk">Войти через VK</string>
 </resources>

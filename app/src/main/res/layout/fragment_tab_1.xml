@@ -12,6 +12,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp" />
 
+    <TextView
+        android:id="@+id/user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/open_funny_fragment_btn"
         android:layout_width="wrap_content"

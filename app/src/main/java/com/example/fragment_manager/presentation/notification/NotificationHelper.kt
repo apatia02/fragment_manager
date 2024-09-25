@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Icon
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.Action
@@ -155,7 +156,7 @@ class NotificationHelper(private val context: Context) {
         val largeImg = BitmapFactory.decodeResource(context.resources, notificationType.imgRes)
         val bigStyle = BigPictureStyle()
             .bigPicture(largeImg)
-            .bigLargeIcon(null)
+            .bigLargeIcon(null as Icon?)
 
         return this.setLargeIcon(largeImg)
             .setStyle(bigStyle)

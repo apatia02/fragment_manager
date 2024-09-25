@@ -2,14 +2,13 @@ package com.example.fragment_manager.presentation.fragments.di
 
 import com.example.fragment_manager.di.FragmentComponent
 import com.example.fragment_manager.presentation.abstractions.FragmentManual
-import com.example.fragment_manager.presentation.fragments.Tab1Fragment
+import com.example.fragment_manager.presentation.abstractions.FragmentManualConfigurator
+import com.example.fragment_manager.presentation.fragments.AuthFragment
 
-class Tab1Configurator : CommonTabConfigurator() {
+class AuthConfigurator : FragmentManualConfigurator {
 
     override fun inject(fragmentManual: FragmentManual, fragmentComponent: FragmentComponent) {
-        super.inject(fragmentManual, fragmentComponent)
-        val fragment = fragmentManual as Tab1Fragment
-        fragment.clickCounter = fragmentComponent.clickCounter
+        val fragment = fragmentManual as AuthFragment
         fragment.userShared = fragmentComponent.activityComponent.appComponent.userShared
     }
 }
